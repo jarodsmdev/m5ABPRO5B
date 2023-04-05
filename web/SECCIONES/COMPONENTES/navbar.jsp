@@ -1,7 +1,7 @@
 <%-- 
     Document   : navbar
     Created on : Mar 22, 2023, 5:49:36 PM
-    Author     : jarod
+    Author     : Leonel Briones Palacios
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -21,10 +21,9 @@
                     <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvContacto') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvContacto">Contacto</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvCapacitacion') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvCapacitacion">Capacitación</a>
+                    <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvCapacitacion') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvCapacitacion5B">Capacitación</a>
                 </li>
                 <li class="nav-item">
-                    <!-- <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvListarCapacitacion') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvListarCapacitacion">Lista de Capacitaciones</a> -->
                     <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvListarCapacitacion5B') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvListarCapacitacion5B">Lista de Capacitaciones</a>
                 </li>
                 

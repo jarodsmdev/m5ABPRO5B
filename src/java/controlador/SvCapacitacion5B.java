@@ -1,19 +1,13 @@
 /**
- *
- * @author Leonel Briones Palacios
+ * Este servlet corresponde a una copia del servlet SvCapacitacion.java
+ * Solicitado por el proyecto 5.1
  */
 package controlador;
 
-import dao.DAOException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.sql.SQLIntegrityConstraintViolationException;
-
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,15 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import modelo.Usuario;
-import mysql.MySQLDaoManager;
+import modelo.Cliente;
 
 /**
  *
  * @author Leonel Briones Palacios
  */
-@WebServlet(name = "SvUsuario", urlPatterns = {"/SvUsuario"})
-public class SvUsuario extends HttpServlet {
+@WebServlet(name = "SvCapacitacion5B", urlPatterns = {"/SvCapacitacion5B"})
+public class SvCapacitacion5B extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +41,10 @@ public class SvUsuario extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SvUsuario</title>");
+            out.println("<title>Servlet SvCapacitacion5B</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SvUsuario at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SvCapacitacion5B at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,20 +63,37 @@ public class SvUsuario extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         //processRequest(request, response);
-
-        //OBTENGO LA SESION ACTUAL
+        
         HttpSession session = request.getSession();
-
-        if (session.getAttribute("nombre") == null) {
-            //NO EXISTE LA INICIADA LA SESION
+        
+        //VERIFICO QUE EXISTA LA SESIÓN CREADA
+        if(session.getAttribute("nombre") == null){
             response.sendRedirect(request.getContextPath() + "/SvLogin");
-
-        } else {
-            //REDIRECCIONO A LA PÁGINA DE USUARIOS
-            RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/usuario.jsp");
-            dispatcher.forward(request, response);
         }
-
+        else{
+            //CREAR ARRAY CON OBJETOS CLIENTES
+            List<Cliente>listaClientes = new ArrayList<Cliente>();
+            
+            //CREAR OBJETOS CLIENTES Y AÑADIRLOS A LA LISTA
+            for(int i = 0; i < 4; i++){
+                Cliente cliente = new Cliente();
+                
+                cliente.setRut(159753);
+                cliente.setNombre("Nombre " + (i+1));
+                cliente.setApellido("Apellido " + (i+1));
+                        
+                listaClientes.add(cliente);
+            }
+            
+            //ENVIAR ARRAYLIST CLIENTES A LA VISTA
+            request.setAttribute("listaClientes", listaClientes);
+            
+            //MOSTRAR FORMULARIO CREAR CAPACITACION
+            RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/capacitacion.jsp");
+            dispatcher.forward(request, response);
+            
+        }
+        
     }
 
     /**
@@ -97,44 +107,7 @@ public class SvUsuario extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
-
-        try {
-            // Capturar los datos que vienen del request
-            int run = Integer.parseInt(request.getParameter("run"));
-            String nombreUsuario = request.getParameter("usuario");
-            String fechaNacimiento = request.getParameter("fechaNacimiento");
-
-            // Crear objeto Usuario y settear los datos
-            Usuario usuario = new Usuario();
-            usuario.setRun(run);
-            usuario.setNombreUsuario(nombreUsuario);
-            usuario.setFechaNacimiento(new SimpleDateFormat("yyyy-MM-dd").parse(fechaNacimiento));
-
-            // Instanciar el DAOManager y llamar al método para la inserción del registro
-            MySQLDaoManager manager = new MySQLDaoManager();
-            manager.getUsuarioDAO().insertar(usuario);
-
-            // Enviar mensaje de éxito a la vista
-            request.setAttribute("mensaje", "Registro guardado exitosamente.");
-
-        } catch (ParseException ex) {
-            // Manejar la excepción si no se pudo parsear la fecha
-            request.setAttribute("mensajeError", "Error: no se pudo procesar la fecha de nacimiento.");
-        } catch (DAOException ex) {
-            // Manejar la excepción si ocurre un error en la inserción del registro
-            if (ex.getCause() instanceof SQLIntegrityConstraintViolationException) {
-                // Manejar el error de clave primaria o índice único duplicado
-                request.setAttribute("mensajeError", "RUN ingresado ya se encuentra registrado.");
-            } else {
-                // Manejar otros errores de DAOException
-                request.setAttribute("mensajeError", "Error al insertar el registro: " + ex.getMessage());
-            }
-        }
-
-        // Redirigir al usuario a la página correspondiente
-        doGet(request, response);
-
+        processRequest(request, response);
     }
 
     /**
