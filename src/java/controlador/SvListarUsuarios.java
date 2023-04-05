@@ -1,5 +1,6 @@
-/**
- * @author: Leonel Briones Palacios
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 package controlador;
 
@@ -21,7 +22,7 @@ import mysql.MySQLDaoManager;
 
 /**
  *
- * @author Leonel Briones Palacios
+ * @author Yo
  */
 @WebServlet(name = "SvListarUsuarios", urlPatterns = {"/SvListarUsuarios"})
 public class SvListarUsuarios extends HttpServlet {
@@ -43,7 +44,7 @@ public class SvListarUsuarios extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SvListarUsuarios</title>");
+            out.println("<title>Servlet SvListarUsuarios</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet SvListarUsuarios at " + request.getContextPath() + "</h1>");
@@ -64,34 +65,30 @@ public class SvListarUsuarios extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //processRequest(request, response);
 
-        //Obtener la session Actual.
         HttpSession session = request.getSession();
-
-        //Verifico si la sesión está iniciada
-        if (session.getAttribute("nombre") == null) {
-            //Redirijo en caso de que no esté iniciada por un usuario válido.
+        
+        if(session.getAttribute("nombre") == null){
             response.sendRedirect(request.getContextPath() + "/SvLogin");
-        } else {
+        }
+        else {
             try {
-                //Instanciar el DAOManager
+                //INSTANCIAR EL DAOMANAGER
                 MySQLDaoManager manager = new MySQLDaoManager();
-
-                //Obtener la lista que trae el método obtenerTodos()
+                //OBTENER LA LISTA QUE TRAE EL MÉTODO OBTENER TODOS
                 List<Usuario> listaUsuarios = manager.getUsuarioDAO().obtenerTodos();
-
-                //Enviar el List listaUsuarios a la vista como parámetro
+                
+                // ENVIAR EL ARRAYLIST USUARIOS A LA VISTA COMO PARÁMETRO
                 request.setAttribute("listaUsuarios", listaUsuarios);
-
-                //Redireccionar
+                
+                // REDIRECCIONAR
                 RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/listarUsuarios.jsp");
                 dispatcher.forward(request, response);
-
             } catch (DAOException ex) {
-                Logger.getLogger(SvListarCapacitacion.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SvListarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
     }
 
     /**

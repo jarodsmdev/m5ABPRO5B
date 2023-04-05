@@ -1,89 +1,53 @@
-
 package modelo;
 
 import java.util.Date;
 
 /**
- * Clase que define un Profesional, extiende de la Clase Usuario
- * @author Leonel Briones Palacios
+ *
+ * @author Yo
  */
 public class Profesional extends Usuario{
-    
-    //ATRIBUTOS DE CLASE
-    private String titulo;
-    private Date fechaIngreso;
+    private int telefonoProfesional;
+    private String tituloProfesional;
+    private String proyectoProfesional;
 
-    /**
-     * Constructor predeterminado
-     */
     public Profesional() {
     }
 
-    /**
-     * Constructor Parametrizado: Recibe como argumento String titulo, Date fechaIngreso, int id, long run, String nombreUsuario, Date fechaNacimiento int id, int run, String nombreUsuario, Date fechaNacimiento
-     * @param titulo
-     * @param fechaIngreso
-     * @param id
-     * @param run
-     * @param nombreUsuario
-     * @param fechaNacimiento 
-     */
-    public Profesional(String titulo, Date fechaIngreso, int id, long run, String nombreUsuario, Date fechaNacimiento) {
-        super(id, run, nombreUsuario, fechaNacimiento);
-        this.titulo = titulo;
-        this.fechaIngreso = fechaIngreso;
+    public Profesional(int telefonoProfesional, String tituloProfesional, String proyectoProfesional, int idUsuario, String nombreUsuario, String apellidoUsuario, int rutUsuario, Date fechaNacimientoUsuario) {
+        super(idUsuario, nombreUsuario, apellidoUsuario, rutUsuario, fechaNacimientoUsuario);
+        this.telefonoProfesional = telefonoProfesional;
+        this.tituloProfesional = tituloProfesional;
+        this.proyectoProfesional = proyectoProfesional;
     }
 
-    /**
-     * Método Getter:
-     * @return String
-     */
-    public String getTitulo() {
-        return titulo;
+    public int getTelefonoProfesional() {
+        return telefonoProfesional;
     }
 
-    /**
-     * Método Setter: Recibe String como titulo
-     * @param titulo 
-     */
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setTelefonoProfesional(int telefonoProfesional) {
+        this.telefonoProfesional = telefonoProfesional;
     }
 
-    /**
-     * Método Getter: Retorna un Date como fecha de Ingreso
-     * @return 
-     */
-    public Date getFechaIngreso() {
-        return fechaIngreso;
+    public String getTituloProfesional() {
+        return tituloProfesional;
     }
 
-    /**
-     * Método Setter: Recibe un Date como fecha de Ingreso
-     * @param fechaIngreso 
-     */
-    public void setFechaIngreso(Date fechaIngreso) {
-        this.fechaIngreso = fechaIngreso;
+    public void setTituloProfesional(String tituloProfesional) {
+        this.tituloProfesional = tituloProfesional;
     }
-    
-    /**
-     * Método analizarUsuario: Retorna datos de la clase usuario(SuperClase), además de titulo y fecha ingreso de la clase Profesional.
-     * @return String concatenando los atributos anteriormente mencionados.
-     */
-    @Override
-    public String analizarUsuario() {
-            return "Profesional: " + super.getNombreUsuario() + ", RUT: " + super.getRun() + ", Título: " + titulo + ", Fecha Ingreso: " + fechaIngreso;
+
+    public String getProyectoProfesional() {
+        return proyectoProfesional;
     }
-    
-    /**
-     * Método toString: Retorna un String concatenando la información del Usuario, agregando los atributos de la clase Profesional
-     * @return String concatenando la información de la clase Usuario(SuperClase) y agregando los de la clase Profesional
-     */
+
+    public void setProyectoProfesional(String proyectoProfesional) {
+        this.proyectoProfesional = proyectoProfesional;
+    }
+
     @Override
     public String toString() {
-            return "Profesional" + super.toString() + "Título: " + titulo + ", Fecha Ingreso: " + fechaIngreso;
-    }   
-    
-    
+        return "Profesional{" + "telefonoProfesional=" + telefonoProfesional + ", tituloProfesional=" + tituloProfesional + ", proyectoProfesional=" + proyectoProfesional + '}';
+    }
     
 }

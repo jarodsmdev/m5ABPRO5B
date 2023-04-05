@@ -6,13 +6,15 @@ import dao.DAOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.Capacitacion;
 import dao.CapacitacionDAO;
 
 
 public class MySQLCapacitacionDAO implements CapacitacionDAO{
     
-    final String INSERT = "INSERT INTO Capacitacion(capFecha, capHora, capLugar, capDuracion, rutCliente) VALUES(?, ?, ?, ? ,?);";
+    final String INSERT = "INSERT INTO Capacitacion(capFecha, capHora, capLugar, capDuracion, cliente_rutCliente) VALUES(?, ?, ?, ? ,?);";
     final String UPDATE = "UPDATE Capacitacion SET capFecha = ?, capHora = ?, capLugar = ?, capDuracion = ?, cliente_rutCliente = ? WHERE idCapacitacion = ?;";
     final String DELETE = "DELETE FROM Capacitacion WHERE idCapacitacion = ?;";
     final String GETALL = "SELECT * FROM Capacitacion;";
@@ -29,10 +31,10 @@ public class MySQLCapacitacionDAO implements CapacitacionDAO{
         PreparedStatement st = null;
         try{
             st = conn.prepareStatement(INSERT);
-            st.setDate(1, new Date(c.getFecha().getTime()));
-            st.setString(2, c.getHora());
-            st.setString(3, c.getLugar());
-            st.setInt(4, c.getDuracion());
+            st.setDate(1, new Date(c.getFechaCapacitacion().getTime()));
+            st.setString(2, c.getHoraCapacitacion());
+            st.setString(3, c.getLugarCapacitacion());
+            st.setInt(4, c.getDuracionCapacitacion());
             st.setInt(5, c.getRutCliente());
             
             if(st.executeUpdate() == 0){
@@ -66,12 +68,12 @@ public class MySQLCapacitacionDAO implements CapacitacionDAO{
         
         Capacitacion capacitacion = new Capacitacion();
 
-        capacitacion.setId(rs.getInt("idCapacitacion"));
-        capacitacion.setFecha(rs.getDate("capFecha"));
-        capacitacion.setHora(rs.getString("capHora"));
-        capacitacion.setLugar(rs.getString("capLugar"));
-        capacitacion.setDuracion(rs.getInt("capDuracion"));
-        capacitacion.setRutCliente(rs.getInt("rutCliente"));
+        capacitacion.setIdCapacitacion(rs.getInt("idCapacitacion"));
+        capacitacion.setFechaCapacitacion(rs.getDate("capFecha"));
+        capacitacion.setHoraCapacitacion(rs.getString("capHora"));
+        capacitacion.setLugarCapacitacion(rs.getString("capLugar"));
+        capacitacion.setDuracionCapacitacion(rs.getInt("capDuracion"));
+        capacitacion.setRutCliente(rs.getInt("cliente_rutCliente"));
         
         return capacitacion;
     }

@@ -35,18 +35,18 @@ public class MySQLDaoManager implements DAOManager{
         return cliente;
     }
     
+    @Override
+    public UsuarioDAO getUsuarioDAO() {
+        if(usuario ==  null){
+            usuario = new MySQLUsuarioDAO(conn);
+        }
+        return usuario;
+    }
+    
     /*public static void main(String[] args) throws SQLException, DAOException{
         MySQLDaoManager man = new MySQLDaoManager();
         List<Capacitacion> capacitaciones = man.getCapacitacionDAO().obtenerTodos();
         System.out.println(capacitaciones);
     }
     */
-
-    @Override
-    public UsuarioDAO getUsuarioDAO() {
-        if(usuario == null){
-            usuario = new MySQLUsuarioDAO(conn);
-        }
-        return usuario;
-    }
 }
