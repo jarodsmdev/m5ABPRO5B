@@ -30,7 +30,7 @@ public class CapacitacionImpl implements ICapacitacion {
         for (int i = 0; i < 3; i++) {
             try {
                 Capacitacion capacitacion = new Capacitacion(
-                        1,
+                        i+1,
                         new SimpleDateFormat("yyyy-MM-dd").parse("2023-03-22"),
                         "10:00",
                         "Sala de Conferencias " + (i+1),

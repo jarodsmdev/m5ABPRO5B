@@ -24,8 +24,10 @@
                     <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvCapacitacion') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvCapacitacion">Capacitación</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvListarCapacitacion') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvListarCapacitacion">Lista de Capacitaciones</a>
+                    <!-- <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvListarCapacitacion') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvListarCapacitacion">Lista de Capacitaciones</a> -->
+                    <a class="nav-link ${pageContext.request.requestURI.endsWith('/SvListarCapacitacion5B') ? 'active' : ''}" href="${pageContext.request.contextPath}/SvListarCapacitacion5B">Lista de Capacitaciones</a>
                 </li>
+                
 
                 <% if (request.getSession().getAttribute("nombre") != null) { %>
                 
