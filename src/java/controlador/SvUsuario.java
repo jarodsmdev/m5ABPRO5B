@@ -125,7 +125,7 @@ public class SvUsuario extends HttpServlet {
             // Manejar la excepción si ocurre un error en la inserción del registro
             if (ex.getCause() instanceof SQLIntegrityConstraintViolationException) {
                 // Manejar el error de clave primaria o índice único duplicado
-                request.setAttribute("mensajeError", "URUN ingresado ya se encuentra registrado.");
+                request.setAttribute("mensajeError", "RUN ingresado ya se encuentra registrado.");
             } else {
                 // Manejar otros errores de DAOException
                 request.setAttribute("mensajeError", "Error al insertar el registro: " + ex.getMessage());

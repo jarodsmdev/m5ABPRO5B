@@ -1,14 +1,14 @@
 /**
- * @author: Leonel Briones Palacios
+ * ESTE SERVLET CORRESPONDE A LA INTEGRACION DEL PROYECTO 5.1
  */
 package controlador;
 
-
-import dao.DAOException;
-import modelo.Capacitacion;
+import implementacion.CapacitacionImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -17,15 +17,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import mysql.MySQLDaoManager;
+import modelo.Capacitacion;
 
 /**
  *
- * @author Yo
+ * @author Leonel Briones Palacios
  */
-@WebServlet(name = "SvListarCapacitacion", urlPatterns = {"/SvListarCapacitacion"})
-public class SvListarCapacitacion extends HttpServlet {
+@WebServlet(name = "registrarCapacitacion5B", urlPatterns = {"/registrarCapacitacion5B"})
+public class registrarCapacitacion5B extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +43,10 @@ public class SvListarCapacitacion extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SvListarCapacitacion</title>");            
+            out.println("<title>Servlet registrarCapacitacion5B</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SvListarCapacitacion at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet registrarCapacitacion5B at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,32 +64,7 @@ public class SvListarCapacitacion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //List<Capacitacion>listaCapacitacion = new ArrayList<>();
-       
-        HttpSession session = request.getSession();
-        
-        if(session.getAttribute("nombre") == null){
-            response.sendRedirect(request.getContextPath() + "/SvLogin");
-        }
-        else {
-            try {
-                //INSTANCIAR EL DAOMANAGER
-                MySQLDaoManager manager = new MySQLDaoManager();
-                
-                //OBTENER LA LISTA QUE TRAE EL MÉTODO OBTENER TODOS
-                List<Capacitacion> listaCapacitacion = manager.getCapacitacionDAO().obtenerTodos();
-                
-                // ENVIAR EL ARRAYLIST CAPACITACION A LA VISTA COMO PARÁMETRO
-                request.setAttribute("listaCapacitacion", listaCapacitacion);
-                
-                // REDIRECCIONAR
-                RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/listarCapacitacion.jsp");
-                dispatcher.forward(request, response);
-                
-            } catch (DAOException ex) {
-                Logger.getLogger(SvListarCapacitacion.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -104,7 +78,39 @@ public class SvListarCapacitacion extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            //processRequest(request, response);
+            
+            //RECUPERAR DATOS QUE VIENEN DEL REQUEST
+            int rutCliente = Integer.parseInt(request.getParameter("rutCliente"));
+            String fechaCapacitacion = request.getParameter("fecha");
+            String horaCapacitacion = request.getParameter("hora");
+            String lugarCapacitacion = request.getParameter("lugar");
+            int duracionCapacitacion = Integer.parseInt(request.getParameter("duracion"));
+            int cantidadAsistentes = Integer.parseInt(request.getParameter("cantAsistentes"));
+            
+            //CREAR OBJETO TIPO CAPACITACION
+            Capacitacion capacitacion = new Capacitacion();
+            
+            //SETEAR EL OBJETO CON LOS DATOS OBTENIDOS DESDE LA VISTA
+            capacitacion.setRutCliente(rutCliente);
+            capacitacion.setFecha(new SimpleDateFormat("yyyy-MM-dd").parse(fechaCapacitacion));
+            capacitacion.setHora(horaCapacitacion);
+            capacitacion.setLugar(lugarCapacitacion);
+            capacitacion.setDuracion(duracionCapacitacion);
+            
+            //INVOCAR AL MÉTODO guardarCapacitacion();
+            String descripcion = capacitacion.guardarCapacitacion(capacitacion);
+            
+            //ENVIAR A LA VISTA LO QUE RETORNA EL MÉTODO guardarCapacitacion
+            request.setAttribute("descripcion", descripcion);
+            
+            //REDIRECCIONAR LA PÁGINA A UN JSP MOSTRANDO UN MENSAJE
+            RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/capacitacionMensaje.jsp");
+            dispatcher.forward(request, response);
+        } catch (ParseException ex) {
+            Logger.getLogger(registrarCapacitacion5B.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

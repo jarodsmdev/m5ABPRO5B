@@ -1,16 +1,13 @@
 /**
- * @author: Leonel Briones Palacios
+ * Este servlet es copia de SvListarCapacitacion.java con las modificaciones que solicitan para el proyecto 5.1
  */
 package controlador;
 
-
-import dao.DAOException;
-import modelo.Capacitacion;
+import implementacion.CapacitacionImpl;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,14 +15,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import mysql.MySQLDaoManager;
+import modelo.Capacitacion;
 
 /**
  *
- * @author Yo
+ * @author jarod
  */
-@WebServlet(name = "SvListarCapacitacion", urlPatterns = {"/SvListarCapacitacion"})
-public class SvListarCapacitacion extends HttpServlet {
+@WebServlet(name = "SvListarCapacitacion5B", urlPatterns = {"/SvListarCapacitacion5B"})
+public class SvListarCapacitacion5B extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,10 +41,10 @@ public class SvListarCapacitacion extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet SvListarCapacitacion</title>");            
+            out.println("<title>Servlet SvListarCapacitacion5B</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet SvListarCapacitacion at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SvListarCapacitacion5B at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,31 +62,28 @@ public class SvListarCapacitacion extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //List<Capacitacion>listaCapacitacion = new ArrayList<>();
+        //processRequest(request, response);
+        //processRequest(request, response);
+        List<Capacitacion>listaCapacitacion = new ArrayList<>();
        
         HttpSession session = request.getSession();
         
         if(session.getAttribute("nombre") == null){
             response.sendRedirect(request.getContextPath() + "/SvLogin");
         }
-        else {
-            try {
-                //INSTANCIAR EL DAOMANAGER
-                MySQLDaoManager manager = new MySQLDaoManager();
-                
-                //OBTENER LA LISTA QUE TRAE EL MÉTODO OBTENER TODOS
-                List<Capacitacion> listaCapacitacion = manager.getCapacitacionDAO().obtenerTodos();
-                
-                // ENVIAR EL ARRAYLIST CAPACITACION A LA VISTA COMO PARÁMETRO
-                request.setAttribute("listaCapacitacion", listaCapacitacion);
-                
-                // REDIRECCIONAR
-                RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/listarCapacitacion.jsp");
-                dispatcher.forward(request, response);
-                
-            } catch (DAOException ex) {
-                Logger.getLogger(SvListarCapacitacion.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        else {;
+            //CREO UN OBJETO DE LA CLASE CAPACITACIONIMPL YA QUE SUS MÉTODOS NO SON ESTÁTICOS
+            CapacitacionImpl capacitacionImpl = new CapacitacionImpl();
+            
+            //INVOCO AL MÉTODO LISTACAPACITACION QUE RETORNA UNA LISTA DE OBJETOS
+            listaCapacitacion = capacitacionImpl.listaCapacitacion();
+            
+            // ENVIAR EL ARRAYLIST CAPACITACION A LA VISTA COMO PARÁMETRO
+            request.setAttribute("listaCapacitacion", listaCapacitacion);
+            
+            // REDIRECCIONAR
+            RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/listarCapacitacion.jsp");
+            dispatcher.forward(request, response);
         }
     }
 
