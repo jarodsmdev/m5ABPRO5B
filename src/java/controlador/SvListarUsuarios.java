@@ -84,6 +84,7 @@ public class SvListarUsuarios extends HttpServlet {
                 // REDIRECCIONAR
                 RequestDispatcher dispatcher = request.getRequestDispatcher("SECCIONES/listarUsuarios.jsp");
                 dispatcher.forward(request, response);
+                
             } catch (DAOException ex) {
                 Logger.getLogger(SvListarUsuarios.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -99,7 +99,8 @@ public class SvLogin extends HttpServlet {
         else {
             HttpSession sesion = request.getSession();
             sesion.setAttribute("nombre", user);
-            response.sendRedirect("SECCIONES/contacto.jsp");
+            request.setAttribute("mensaje", "Bienvenido Admin!.");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
             
         }
     }

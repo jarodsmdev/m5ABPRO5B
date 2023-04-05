@@ -87,7 +87,7 @@ public class SvUsuarios extends HttpServlet {
                 while (rs.next()) {
                     Usuario usuario = new Usuario();
 
-                    usuario.setIdUsuario(rs.getInt("idUsuario"));
+                    usuario.setIdUsuario(rs.getInt("id"));
                     usuario.setNombreUsuario(rs.getString("nombre"));
                     usuario.setApellidoUsuario(rs.getString("apellidos"));
                     usuario.setRutUsuario(rs.getInt("run"));
